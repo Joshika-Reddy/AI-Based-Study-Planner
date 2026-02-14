@@ -1,10 +1,10 @@
-# 📘 AI Study Planner
+AI Study Planner
 
 A simple AI-based web application that generates a personalized daily study plan based on subjects, marks, and difficulty level. The app intelligently distributes study hours and visualizes the plan using charts.
 
 ---
 
-## 🚀 Features
+Features
 - Add multiple subjects dynamically
 - Enter current marks for each subject
 - Select difficulty level (Easy / Medium / Hard)
@@ -14,7 +14,7 @@ A simple AI-based web application that generates a personalized daily study plan
 
 ---
 
-## 🧠 How it works
+How it works
 Priority = (100 - Marks) × Difficulty Weight
 
 Difficulty weights:
@@ -26,14 +26,14 @@ Subjects with lower marks and higher difficulty get more study hours.
 
 ---
 
-## 🛠️ Tech Stack
+Tech Stack
 - Python (Flask)
 - HTML & CSS
 - Chart.js
 
 ---
 
-## 💻 Run Locally
+Run Locally
 1. Clone repo  
 git clone https://github.com/Joshika-Reddy/AI-Based-Study-Planner.git
 
@@ -48,5 +48,5 @@ http://127.0.0.1:5000/
 
 ---
 
-## 👩‍💻 Author
+Author
 Joshika Reddy – CSE (AI & ML)
