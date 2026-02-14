@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Study Planner</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: auto;
+            padding: 16px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .card {
+            background: white;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+
+        .row {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        input, select, button {
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            width: 100%;
+        }
+
+        button {
+            background: #4f6df5;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #3b56d4;
+        }
+
+        .add-btn {
+            background: #1abc9c;
+        }
+
+        .add-btn:hover {
+            background: #159a80;
+        }
+
+        .study-plan-item {
+            background: #eef1ff;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        canvas {
+            max-height: 320px;
+        }
+
+        @media (min-width: 600px) {
+            .row {
+                flex-direction: row;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <h1>📘 AI Study Planner</h1>
+
+    <div class="card">
+        <form method="POST">
+
+            <div id="subjects">
+
+                <!-- SUBJECT ROW -->
+                <div class="row subject-row">
+                    <input type="text" name="subject" placeholder="Subject" required>
+                    <input type="number" name="marks" placeholder="Marks" required>
+                    <select name="difficulty">
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <button type="button" class="add-btn" onclick="addSubject()">➕ Add Another Subject</button>
+
+            <br><br>
+            <input type="number" name="total_hours" placeholder="Total Study Hours per Day" required>
+
+            <br><br>
+            <button type="submit">Generate Study Plan</button>
+        </form>
+    </div>
+
+    {% if study_plan %}
+    <div class="card">
+        <h2>📊 Study Plan</h2>
+
+        {% for subject, hours in study_plan.items() %}
+        <div class="study-plan-item">
+            {{ subject }} → {{ hours }} hours
+        </div>
+        {% endfor %}
+
+        <canvas id="studyChart"></canvas>
+    </div>
+    {% endif %}
+
+</div>
+
+<script>
+function addSubject() {
+    const div = document.createElement("div");
+    div.className = "row subject-row";
+    div.innerHTML = `
+        <input type="text" name="subject" placeholder="Subject" required>
+        <input type="number" name="marks" placeholder="Marks" required>
+        <select name="difficulty">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+        </select>
+    `;
+    document.getElementById("subjects").appendChild(div);
+}
+</script>
+
+{% if study_plan %}
+<script>
+const labels = {{ study_plan.keys()|list|tojson }};
+const values = {{ study_plan.values()|list|tojson }};
+
+new Chart(document.getElementById("studyChart"), {
+    type: "bar",
+    data: {
+        labels: labels,
+        datasets: [{
+            label: "Study Hours",
+            data: values,
+            backgroundColor: "#4f6df5",
+            borderRadius: 6,
+            barPercentage: 0.4,
+            categoryPercentage: 0.6
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: { beginAtZero: true }
+        }
+    }
+});
+</script>
+{% endif %}
+
+</body>
+</html>
+
+
+
+
+
+
